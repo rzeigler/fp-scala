@@ -14,7 +14,7 @@ object Lesson1 extends App {
   println("an option: " + Functor[Option].fmap(Some(1))(add1))
 
   type FnInt[A] = Function1[Int, A]
-  println("a function????: " + Functor[FnInt].fmap(add1)(add1)(3))
+  println("a function????: " + Functor[FnInt].fmap(add1)(add1)(1)) // = 3
 
   println("functors compose with eachother")
   val listVectorOption = Functor[List].compose(Functor[Vector]).compose(Functor[Option])
