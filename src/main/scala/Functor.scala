@@ -3,14 +3,6 @@ import cats.data._
 import cats.implicits._
 
 object Lesson1 extends App {
-  def time[A](name: String)(a: => A): A = {
-    val start = System.currentTimeMillis
-    val result = a
-    val end = System.currentTimeMillis
-    println(s"$name took ${end - start}")
-    result
-  }
-
   val add1: Function1[Int, Int] = (x: Int) => x + 1
 
   // Functors are all about lifting functions into some kind of boxed context
@@ -29,9 +21,33 @@ object Lesson1 extends App {
   println("a List[Vector[Option[_]]] " + listVectorOption.fmap(List(Vector(Some(1), Some(3)), Vector(None, Some(6))))(add1))
 
   println("the functor laws have performance implications")
-  val base = (0 to 5000000).toVector
-  println("why is this slow?")
-  time("sequential")(base.map(add1).map(add1).map(add1).map(add1).map(add1))
-  time("composed")(base.map(add1.andThen(add1).andThen(add1).andThen(add1).andThen(add1)))
+  def time[A](name: String)(a: => A): A = {
+    val start = System.currentTimeMillis
+    val result = a
+    val end = System.currentTimeMillis
+    println(s"$name took ${end - start}")
+    result
+  }
 
+  val large = (0 to 5000000).toVector
+
+  println("why is this slow?")
+  time("sequential")(
+    large
+    .map(add1)
+    .map(add1)
+    .map(add1)
+    .map(add1)
+    .map(add1)
+  )
+  time("composed")(
+    large
+    .map(
+      add1
+      .andThen(add1)
+      .andThen(add1)
+      .andThen(add1)
+      .andThen(add1)
+    )
+  )
 }
