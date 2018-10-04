@@ -2,7 +2,7 @@ import cats._
 import cats.data._
 import cats.implicits._
 
-object Lesson1 extends App {
+object FunctorOverview extends App {
   val add1: Function1[Int, Int] = (x: Int) => x + 1
 
   // Functors are all about lifting functions into some kind of boxed context
